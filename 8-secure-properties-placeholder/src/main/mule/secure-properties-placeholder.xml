@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ff01a53c-91ae-4f79-b154-1fa926227099" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="a6ef51e4-51b6-4a8d-95fe-3002a7ce3612" file="secure.properties" key="1234" >
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
+	<flow name="secure-properties-placeholderFlow" doc:id="be1162dc-2821-4177-8d47-5dbc846bd925" >
+		<http:listener doc:name="Listener" doc:id="1c93c015-f286-485b-96d4-624598285e32" config-ref="HTTP_Listener_config" path="/secure"/>
+		<logger level="INFO" doc:name="Mule Flow Logger" doc:id="153e683f-a01c-4ec0-b87e-fb9c9a49664c" message="Mule Flow DB username -  ${secure::database.username} and password ${secure::database.password}"/>
+		<ee:transform doc:name="DW logger" doc:id="ba1250b9-8160-4a8b-9226-bf9bb8da860e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+ 
+---
+log("DB username ", p('secure::database.username') as String)
+++
+log("DB password ", p('secure::database.password') as String)
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
