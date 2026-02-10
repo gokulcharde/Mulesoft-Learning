@@ -1,0 +1,28 @@
+{
+  "configs": [
+    "6-retrieve-query-parameters-from-http-url.xml"
+  ],
+  "secureProperties": [],
+  "supportedJavaVersions": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:6-retrieve-query-parameters-from-http-url:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.10.0",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "6-retrieve-query-parameters-from-http-url.xml",
+        "log4j2.xml"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  },
+  "javaSpecificationVersions": [
+    "17"
+  ]
+}
